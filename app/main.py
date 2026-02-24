@@ -2,15 +2,17 @@ from fastapi import FastAPI, HTTPException
 from core_utils.validators import validate_email, validate_not_empty
 from core_utils.exceptions import ValidationError
 from core_utils.logger import get_logger
+from app.config import settings
 
-app = FastAPI()
+app = FastAPI(title=settings.app_name)
 logger = get_logger(__name__)
 
 @app.get("/")
 def root():
-    logger.info("API Iniciada")
+    logger.info("Ambiente: %s", settings.app_name)
     return {
-        "message": "API funcionando"
+        "message": "API funcionando",
+        "enviroment": settings.environment
     }
 
 @app.post("/users")
